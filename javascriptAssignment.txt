@@ -1,0 +1,352 @@
+1. What is hoisting?
+
+Ans: Hoisting in JavaScript refers to the process, where the interpretor moves the declaration of the variables, the function, and the classes at the top of their scope, before execution of the code. It enables the users to use the variables or function even before its declaration.
+
+For eg: If we try to use the variable even before its initialization, we get output as udnefined becoz of hoisting.
+
+
+---------------------------------------------------------------------------------------------------
+
+2. What is scoping?
+
+Ans: In JavaScript Objects and functions are also treated as variable. Scope defines the accessibility of the variable during execution of code from differnt part of code.
+
+Before ES6, JS has only 2 scopes: 1. Global Scope  2. Function Scope 3.
+After Es6, JS has 3 scopes: 1. Global Scope  2. Block scope 3. Function scope.
+
+Block Scope:
+Let and const provides the block scope in Js. Its declaration are hoisted  in diferent manner, and before intializing any value it is in temporal deazone (different block scope).
+
+Global scope: A vairable declared outside a function becomes global.
+
+Function scope: Any variable declared within a function using var, let or const are function scoped as well.
+
+---------------------------------------------------------------------------------------
+
+3. How are var, let const different?
+
+Ans: Let and const declaration are hoisted in different manner as comapre to var. Let and const are in temporal deadzone before intialing with any value.
+
+Let: Let is not stored in the window object. Duplication not allowed. Hoisted in Js, with value stored as undefined. However, cannot allow access to the let before initilaization. If we do so, it will throw reference error.
+
+Const: It must be initialized in declaration itself. It behaves all the way to let, but it is more strict. If we try to redclare a const, it will throw typerror as cannot redclare a const. If we
+
+Var: It is a most generic way of using a vairiable to store. It is in global scope.
+
+
+-----------------------------------------------------------------------------------------------
+
+
+4. What are the two main differences in arrow functions?
+
+Ans: Arrow Function: It is always without name that is anonymous. However, regualar functions can have name or anonymous.
+Arrow function cannot be hoisted, as it does not have any name. However, regualar functions having name can be hoisted depending upon its scope and where it is called.
+Arrow function does not have its own this, however regular function have thier ownn this.
+Arrow functions does not have access to variables called arguments.
+
+
+For eg: const sum = (a, b) => {
+    console.log(a,b)
+    return (a+b)
+}
+
+---------------------------------------------------------------------------------------------------
+
+5. Does Call apply bind work for arrow functions?
+
+Ans: In case of arrow functions our methods: Call/Apply & Bind doesn't work as expected. As the documentation of MDN states: "Since arrow functions do not have their own this, the methods call() or apply() can only pass in parameters.
+Arrow functions doesn't have their own this. This is lexically bound and it uses the this of the context in which the arrow function was called. Call/Apply & Bind can be used only to pass parameters.
+
+---------------------------------
+
+6. What does call apply bind do?
+
+Ans: Call: We can borrow function of some other object and use it with the data of other object.
+
+    printFUllName.call(name2) or name.printFUllName.call(name2)
+
+     Apply: It is similar as of the call method, however, it takes two arguments, second arguments as the list of paramaneters.
+
+     printFUllName.apply(name, []).
+
+     Bind: It looks similar to call method, only diff is that instead of calling that method here, it binds this method to the object, and returns the copy of the method.
+     Bind just keep a copy of that method, that can be used later.
+
+     let printMyname = printFullName.bind(name2, "Mumbai", "Maharashtra").
+
+----------------------------------------------------------------
+
+7. What are closures?
+
+Ans: Function along with its lexical scope forms a closure. A function y binds with the variables of function x, it has access to its parent variable scope. Lexical scope of a closure functions are variables inside the function and its parent function.
+
+For eg: function x() {
+    var a = 7;
+
+    function y() {
+        console.log(a)
+    }
+    y()
+}
+
+x();
+
+Applications of closures:
+a. Module design pattern
+b. Currying function
+c. Function like once
+d. memoized function
+e. Maintaining async world
+f. Settimeouts
+g. Iterators
+
+-------------------------------------------
+
+8. Write a program to debounce a searchbar?
+
+Ans: It is used to improve the browser performance. It limits the rate at whhich the function is invoking by passing sume pref=deined delay, and doing cleartimeout and setitmeout to impelemnt the debounce mecahinism.
+
+If funtion is invoked frequently, it effects the performance of the browser. This
+For eg: Inputbox debounce
+
+// debouncing
+let count = 0;
+function getData() {
+  console.log("Fetching Data", count++);
+}
+
+const debounce = function (fn, d) {
+  let timer;
+
+  return function () {
+    let context = this,
+      args = arguments;
+
+    clearTimeout(timer);
+
+    timer = setTimeout(() => {
+      getData(context, args);
+    }, d);
+  };
+};
+
+const betterFunction = debounce(getData, 1000);
+-------------------------------------------------------
+
+10. Write a program to throttle a search bar?
+
+Ans: Throttling is used to call a function after every millisecond or a particular interval of time only the first click is executed immediately.
+
+The major difference between debounce=ing and throttling is that In debouncing, when user hasn't carried out any event for a given amount of time, this funcion gets invoked.
+Whereas, thrott calls a function after a given amount of time, regardless of event ocured.
+Clicking a fetch button again and again leads to slow down of webpage, that can be prevented with throttling by defining time limit.
+
+----------------------------------------------------------------
+
+11. create a custom method for an array called myMap, use prototype chain to achieve this?
+
+Ans: var arr = [1, 2, 3, 4, 5];
+
+// polyfilled map function
+
+Array.prototype.myMap = function (callback) {
+  
+  let ans = [];
+  for (var i = 0; i < this.length; i++) {
+    ans.push(callback(this[i], i, this));
+  }
+  return ans;
+};
+
+var result = arr.myMap((item) => {
+  return item * 5;
+});
+console.log(result);
+
+--------------------------------------------------------------------------------------
+
+12. What is event bubbling?
+
+Ans: In the event bubbling model, an event starts at the most specific element and then propagtes to upwards towards the least specific element. By default, event bubbling value is false, and it resemenles the bubbling model.
+For understanding, analogy is similar to bubbles formation in water that flows from centre to the ends.
+
+---------------------------------------------------------------------------------------
+
+13. What is event loop?
+
+Ans: Its job is to continuously monitoring the callback queue, and the callstack, if calltack is empty, and there is function waiting in the callback queue, it takes the function into the callstack to execute. It acts as a gate keeper.
+ Its job is to check the calllback queue, and put the function of the callback queue into the callstack.
+
+ --------------------------------------------------------------------------------------
+
+ 14. Explain promises to a 5 year old, with simple examples?
+
+ Ans: Js is a synchronous single threaded language. When a promiss made whether it will resolve of rejected and it will waits for the result. 
+ for Example : when a student study for the exam wether he will pass the 
+ exam of fail the exam if student pass the exam then student will get reward for that 
+ and if he fails then student will get punished or scollded.
+
+ in case of promises in javascript it behaves the same way if promises made then it will get resolve or rejected
+ if resolve then it will do some operation and if rejected it will do some operation or might give some error.
+
+ -----------------------------------------------------------------------------------
+
+15. Write a function called sleep that will return a promise, if you do not provide a number to the function, then it will return an error and goto the catch block?
+
+Ans: function sleep(num){
+  return myPromise = new Promise((resolve, reject)=>{
+    
+    if (Number.isInteger(num)) resolve('success')
+    else reject('go to the catch block')
+
+})
+
+} 
+sleep('10').then((res)=>console.log(res)).catch((err)=>console.log(err))
+
+------------------------------------------------------------------------------------
+
+17. what does async await mean?
+
+Ans: The async function declared with a async keyword and await is the keyword that
+permitted with is. By using async await we can make our any function of code promise.
+We can say async await is the simplest way to make promise. It behaves as asyncronus.
+await keyword pauses the asynction function until promise fullfilled. (either get resolve or rejected).
+we can't use await keyword without async function. to use await function should be async.
+
+syntax : async function xyz(){ 
+    await(any promise)
+    catch(err){}
+}
+
+---------------------------------------------------------------------------------
+
+18.What does the this keyword mean?
+
+Ans: In JavaScript, the this keyword refers to an object.
+
+if we write this inside a function then it will referese
+to window object because the function made from global object. 
+for example if we create a object from another object using prototype then if we write this 
+inside that child object then it will referese to the parent object from which it builds.
+
+
+let obj = {
+    name : "rajan",
+    city : "delhi",
+
+    printName : function(){
+        console.log(this)
+    } 
+
+}
+
+obj.printName()
+here this referese to the obj which is it's parent object. Incase of the function which is globally ,this will referes to window object. Whenver js code is runnig the global objece is created where our all code lies. 
+
+-------------------------------------------------------------------------------------------
+
+18. What are classes? what are getters and setters?
+
+Ans: Classes are a template for creating objects. They encapsulate data with code to work on that data. Classes in JS are built on prototypes but also have some syntax and semantics that are not shared with ES5 class-like semantics.
+The constructor method is a special method for creating and initializing an object created with a class. There can only be one special method with the name "constructor" in a class. 
+
+class Rectangle {
+  constructor(height, width) {
+    this.height = height;
+    this.width = width;
+  }
+}
+
+Getters and Setters allows us to define object accessors.
+The get syntax binds an object property to a function that will be called when that property is looked up.
+
+The set syntax binds an object property to a function to be called when there is an attempt to set that property.
+
+
+-------------------------------------------------------------------------------
+
+20. How do you declare private and static variables in classes?
+
+Ans: private => 
+class Person{
+    
+    #pin = 123535; // private variable
+    #getPIN(){ // private method
+        return this.pin
+    }
+    
+    
+}
+
+const p1 = new Person('rajan',20);
+console.log(p1.pin) // undefined
+
+
+
+
+
+static =>
+
+ class Car {
+     static name = "audi"
+     printName = function (){
+         console.log(Car.name)
+     }
+ }
+
+let newCar = new Car();
+newCar.printName()
+
+----------------------------------------------------------------------------------
+
+21. What is currying?
+
+Ans: when a function instead of taking all arguments at once it takes a argument
+which returns a function which takes another argument which returns another function 
+and the proces keeps on happen untill all arguments are completed. 
+
+example : 
+
+
+function x(a){
+    return function (b){
+        return function (c){
+            return a+b+c
+        }
+    }
+}
+
+console.log(x(1)(2)(3))
+
+-----------------------------------------------------------------------------
+
+22. . Write a program to flatten an array.
+
+const input= [ 1, [ 2, 3 ], [ 3 ], [ [ [ 5]],  6]  ];
+
+
+function mainFunction(arr){
+
+    let ans = []
+    function recursion(arr){
+
+        for (let i=0; i<arr.length; i++){
+            if (!Array.isArray(arr[i])){
+                ans.push(arr[i])
+            }else{
+                recursion(arr[i])
+            }
+        }
+    }
+    recursion(arr)
+    console.log(ans)
+}
+
+mainFunction(input)
+
+
+
+
+
+
